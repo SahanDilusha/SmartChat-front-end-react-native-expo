@@ -87,6 +87,7 @@ const stylesheet = StyleSheet.create({
     fontSize: 32,
     fontFamily: "Montserrat-Bold",
     marginVertical: 10,
+    color:"#436e99",
   },
   text2: {
     fontSize: 20,
@@ -97,10 +98,11 @@ const stylesheet = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Montserrat-Bold",
     marginVertical: 5,
+    color:"#436e99",
   },
   pressable1: {
     height: 50,
-    backgroundColor: "red",
+    backgroundColor: "#436e99",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 15,
