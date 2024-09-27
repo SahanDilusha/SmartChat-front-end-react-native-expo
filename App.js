@@ -8,7 +8,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
 
-  const [loaded] = useFonts({
+  const [loaded, error] = useFonts({
     "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
     "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),
     "Montserrat-Regular": require("./assets/fonts/Montserrat-Regular.ttf"),
@@ -18,9 +18,9 @@ export default function App() {
     if (loaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, error]);
 
-  if (!loaded) {
+  if (!loaded && !error) {
     return null;
   }
 
@@ -28,15 +28,22 @@ export default function App() {
 
   return (
     <ScrollView style={stylesheet.main} contentContainerStyle={stylesheet.scrollContent}>
+
+
       <View style={stylesheet.view1}>
-        <Image source={imagePath} />
+
+        <View style={stylesheet.view2}>
+          <Image source={imagePath}  style={stylesheet.image1}/>
+          <Text style={stylesheet.text6}>Smart Chat</Text>
+        </View>
+
 
         <Text style={stylesheet.text1}>Create Account</Text>
 
         <Text style={stylesheet.text2}>Hello! Welcome to Smart Chat</Text>
 
         <Text style={stylesheet.text3}>Mobile</Text>
-        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10}/>
+        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10} />
 
         <Text style={stylesheet.text3}>First Name</Text>
         <TextInput style={stylesheet.input1} cursorColor={"#000"} />
@@ -47,12 +54,12 @@ export default function App() {
         <Text style={stylesheet.text3}>Password</Text>
         <TextInput style={stylesheet.input1} cursorColor={"#000"} secureTextEntry={true} />
 
-        <Pressable style={stylesheet.pressable1}>
+        <Pressable style={stylesheet.pressable1} onPress={() => { }}>
           <FontAwesome style={stylesheet.text4} name="sign-in" size={24} color="black" />
           <Text style={stylesheet.text4}>Sgin Up</Text>
         </Pressable>
 
-        <Pressable style={stylesheet.pressable2}>
+        <Pressable style={stylesheet.pressable2} onPress={() => { }}>
           <Text style={stylesheet.text5}>Alredy  have an account? Sgin In</Text>
         </Pressable>
       </View>
@@ -125,5 +132,18 @@ const stylesheet = StyleSheet.create({
   text5: {
     fontSize: 18,
     fontFamily: "Montserrat-Light",
+  },
+  view2: {
+    flexDirection: "row",
+    alignItems: "center",
+    columnGap:10,
+  },
+  image1:{
+    width: 60,
+    height:60,
+  },
+  text6:{
+    fontSize:20,
+    fontFamily:"Montserrat-Bold",
   },
 });
