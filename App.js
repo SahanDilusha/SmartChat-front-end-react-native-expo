@@ -1,10 +1,11 @@
-import { StyleSheet, View, Text, TextInput, Pressable, ScrollView } from "react-native";
+import { StyleSheet, View, Text, TextInput, Pressable, ScrollView, Button, Alert } from "react-native";
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
+import * as ImagePicker from 'expo-image-picker';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,14 +28,27 @@ export default function App() {
   }
 
   const imagePath = require("./assets/images/main.png");
+  const [getImage, setImage] = useState();
 
   return (
     <ScrollView style={stylesheet.main} contentContainerStyle={stylesheet.scrollContent}>
 
       <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1} >
 
+        <Button title="Select Image" onPress={async () => {
+          let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1]
+          });
+
+          if (!result.canceled) {
+            setImage(result.assets[0].uri);
+          }
+        }} />
+
         <View style={stylesheet.view2}>
-          <Image source={imagePath} style={stylesheet.image1} contentFit="scale-down"/>
+          <Image source={imagePath} style={stylesheet.image1} contentFit="scale-down" />
           <Text style={stylesheet.text6}>Smart Chat</Text>
         </View>
 
@@ -80,8 +94,8 @@ const stylesheet = StyleSheet.create({
   view1: {
     justifyContent: "center",
     paddingHorizontal: 10,
-    height:"100%",
-    width:"100%",
+    height: "100%",
+    width: "100%",
   },
   input1: {
     width: "100%",
