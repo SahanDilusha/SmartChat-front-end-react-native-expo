@@ -6,6 +6,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
+import Feather from '@expo/vector-icons/Feather';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -28,6 +29,8 @@ export default function App() {
   }
 
   const imagePath = require("./assets/images/main.png");
+  const imagePath2 = require("./assets/images/default.png");
+
   const [getImage, setImage] = useState();
 
   return (
@@ -35,17 +38,6 @@ export default function App() {
 
       <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1} >
 
-        <Button title="Select Image" onPress={async () => {
-          let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [1, 1]
-          });
-
-          if (!result.canceled) {
-            setImage(result.assets[0].uri);
-          }
-        }} />
 
         <View style={stylesheet.view2}>
           <Image source={imagePath} style={stylesheet.image1} contentFit="scale-down" />
@@ -55,6 +47,23 @@ export default function App() {
         <Text style={stylesheet.text1}>Create Account</Text>
 
         <Text style={stylesheet.text2}>Hello! Welcome to Smart Chat</Text>
+
+        <View style={stylesheet.view3}>
+          <Image source={getImage == null ? imagePath2 : getImage} style={stylesheet.image2} />
+          <Pressable style={stylesheet.pressable3} onPress={async () => {
+            let result = await ImagePicker.launchImageLibraryAsync({
+              mediaTypes: ImagePicker.MediaTypeOptions.Images,
+              allowsEditing: true,
+              aspect: [1, 1]
+            });
+
+            if (!result.canceled) {
+              setImage(result.assets[0].uri);
+            }
+          }}>
+            <Feather name="image" size={24} color="black" />
+          </Pressable>
+        </View>
 
         <Text style={stylesheet.text3}>Mobile</Text>
         <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10} />
@@ -167,5 +176,26 @@ const stylesheet = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
+  },
+  image2: {
+    width: 100,
+    height: 100,
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderRadius: 100,
+  },
+  view3: {
+    flexDirection: 'row',
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+  },
+  pressable3: {
+    position: "absolute",
+    backgroundColor: "#b1b3b5",
+    borderRadius: 100,
+    padding: 5,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
