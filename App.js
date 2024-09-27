@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput, Pressable, ScrollView, Button, Alert } from "react-native";
+import { StyleSheet, View, Text, TextInput, Pressable, ScrollView} from "react-native";
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useEffect, useState } from "react";
