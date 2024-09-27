@@ -1,9 +1,10 @@
-import { Image, StyleSheet, View, Text, TextInput, Pressable, ScrollView } from "react-native";
+import { StyleSheet, View, Text, TextInput, Pressable, ScrollView } from "react-native";
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useEffect } from "react";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Image } from 'expo-image';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -33,10 +34,9 @@ export default function App() {
       <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1} >
 
         <View style={stylesheet.view2}>
-          <Image source={imagePath} style={stylesheet.image1} />
+          <Image source={imagePath} style={stylesheet.image1} contentFit="scale-down"/>
           <Text style={stylesheet.text6}>Smart Chat</Text>
         </View>
-
 
         <Text style={stylesheet.text1}>Create Account</Text>
 
