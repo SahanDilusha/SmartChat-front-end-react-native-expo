@@ -3,6 +3,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useEffect } from "react";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { LinearGradient } from 'expo-linear-gradient';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,11 +30,10 @@ export default function App() {
   return (
     <ScrollView style={stylesheet.main} contentContainerStyle={stylesheet.scrollContent}>
 
-
-      <View style={stylesheet.view1}>
+      <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1} >
 
         <View style={stylesheet.view2}>
-          <Image source={imagePath}  style={stylesheet.image1}/>
+          <Image source={imagePath} style={stylesheet.image1} />
           <Text style={stylesheet.text6}>Smart Chat</Text>
         </View>
 
@@ -62,7 +62,7 @@ export default function App() {
         <Pressable style={stylesheet.pressable2} onPress={() => { }}>
           <Text style={stylesheet.text5}>Alredy  have an account? Sgin In</Text>
         </Pressable>
-      </View>
+      </LinearGradient>
     </ScrollView>
   );
 }
@@ -75,11 +75,13 @@ const stylesheet = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     justifyContent: "center",
-    paddingHorizontal: 10,
     rowGap: 10,
   },
   view1: {
     justifyContent: "center",
+    paddingHorizontal: 10,
+    height:"100%",
+    width:"100%",
   },
   input1: {
     width: "100%",
@@ -125,7 +127,6 @@ const stylesheet = StyleSheet.create({
   },
   pressable2: {
     height: 50,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -136,14 +137,21 @@ const stylesheet = StyleSheet.create({
   view2: {
     flexDirection: "row",
     alignItems: "center",
-    columnGap:10,
+    columnGap: 10,
   },
-  image1:{
+  image1: {
     width: 60,
-    height:60,
+    height: 60,
   },
-  text6:{
-    fontSize:20,
-    fontFamily:"Montserrat-Bold",
+  text6: {
+    fontSize: 20,
+    fontFamily: "Montserrat-Bold",
+  },
+  background1: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });
