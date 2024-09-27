@@ -36,7 +36,7 @@ export default function App() {
         <Text style={stylesheet.text2}>Hello! Welcome to Smart Chat</Text>
 
         <Text style={stylesheet.text3}>Mobile</Text>
-        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} />
+        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10}/>
 
         <Text style={stylesheet.text3}>First Name</Text>
         <TextInput style={stylesheet.input1} cursorColor={"#000"} />
@@ -87,7 +87,7 @@ const stylesheet = StyleSheet.create({
     fontSize: 32,
     fontFamily: "Montserrat-Bold",
     marginVertical: 10,
-    color:"#436e99",
+    color: "#436e99",
   },
   text2: {
     fontSize: 20,
@@ -98,7 +98,7 @@ const stylesheet = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Montserrat-Bold",
     marginVertical: 5,
-    color:"#436e99",
+    color: "#436e99",
   },
   pressable1: {
     height: 50,
