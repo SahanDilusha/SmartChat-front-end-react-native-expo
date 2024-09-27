@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View, Text, TextInput } from "react-native";
+import { Image, StyleSheet, View, Text, TextInput, Pressable } from "react-native";
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useEffect } from "react";
@@ -9,9 +9,9 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
 
   const [loaded, error] = useFonts({
-    "Montserrat-Bold": "./assets/fonts/Montserrat-Bold.ttf",
-    "Montserrat-Light": "./assets/fonts/Montserrat-Light.ttf",
-    "Montserrat-Regular": "assets/fonts/Montserrat-Regular.ttf",
+    "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
+    "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),
+    "Montserrat-Regular": require("./assets/fonts/Montserrat-Regular.ttf"),
   });
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function App() {
       <Text style={stylesheet.text2}>Hello! Welcome to Smart Chat</Text>
 
       <Text style={stylesheet.text3}>Mobile</Text>
-      <TextInput style={stylesheet.input1} />
+      <TextInput style={stylesheet.input1} inputMode="tel"/>
 
       <Text style={stylesheet.text3}>First Name</Text>
       <TextInput style={stylesheet.input1} />
@@ -44,7 +44,11 @@ export default function App() {
       <TextInput style={stylesheet.input1} />
 
       <Text style={stylesheet.text3}>Password</Text>
-      <TextInput style={stylesheet.input1} />
+      <TextInput style={stylesheet.input1} secureTextEntry={true}/>
+
+      <Pressable style={stylesheet.pressable1}>
+        <Text style={stylesheet.text4}>Sgin Up</Text>
+      </Pressable>
 
     </View>
   );
@@ -78,5 +82,17 @@ const stylesheet = StyleSheet.create({
   text3:{
     fontSize:16,
     fontFamily:"Montserrat-Bold",
+  },
+  pressable1:{
+    height:50,
+    backgroundColor:"red",
+    justifyContent:"center",
+    alignItems:"center",
+    borderRadius:15,
+  },
+  text4:{
+    fontSize:18,
+    fontFamily:"Montserrat-Bold",
+    color:"#fff",
   },
 });
