@@ -35,7 +35,7 @@ export default function App() {
   return (
 
     <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1} >
-      <ScrollView style={stylesheet.main} contentContainerStyle={stylesheet.scrollContent}>
+      <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} style={stylesheet.main} contentContainerStyle={stylesheet.scrollContent}>
         <View style={stylesheet.view2}>
           <Image source={imagePath} style={stylesheet.image1} contentFit="contain" />
           <Text style={stylesheet.text6}>Smart Chat</Text>
