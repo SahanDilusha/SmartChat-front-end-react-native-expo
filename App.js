@@ -6,7 +6,6 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
-import Feather from '@expo/vector-icons/Feather';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,13 +33,11 @@ export default function App() {
   const [getImage, setImage] = useState();
 
   return (
-    <ScrollView style={stylesheet.main} contentContainerStyle={stylesheet.scrollContent}>
 
-      <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1} >
-
-
+    <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1} >
+      <ScrollView style={stylesheet.main} contentContainerStyle={stylesheet.scrollContent}>
         <View style={stylesheet.view2}>
-          <Image source={imagePath} style={stylesheet.image1} contentFit="scale-down" />
+          <Image source={imagePath} style={stylesheet.image1} contentFit="contain" />
           <Text style={stylesheet.text6}>Smart Chat</Text>
         </View>
 
@@ -49,7 +46,7 @@ export default function App() {
         <Text style={stylesheet.text2}>Hello! Welcome to Smart Chat</Text>
 
         <View style={stylesheet.view3}>
-          <Image source={getImage == null ? imagePath2 : getImage} style={stylesheet.image2} />
+
           <Pressable style={stylesheet.pressable3} onPress={async () => {
             let result = await ImagePicker.launchImageLibraryAsync({
               mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -61,7 +58,7 @@ export default function App() {
               setImage(result.assets[0].uri);
             }
           }}>
-            <Feather name="image" size={24} color="black" />
+            <Image source={getImage == null ? imagePath2 : getImage} style={stylesheet.image2} />
           </Pressable>
         </View>
 
@@ -85,26 +82,25 @@ export default function App() {
         <Pressable style={stylesheet.pressable2} onPress={() => { }}>
           <Text style={stylesheet.text5}>Alredy  have an account? Sgin In</Text>
         </Pressable>
-      </LinearGradient>
-    </ScrollView>
+      </ScrollView>
+    </LinearGradient >
+
   );
 }
 
 const stylesheet = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   scrollContent: {
     flexGrow: 1,
     justifyContent: "center",
-    rowGap: 10,
+    rowGap: 5,
+    paddingHorizontal: 10,
   },
   view1: {
     justifyContent: "center",
-    paddingHorizontal: 10,
-    height: "100%",
-    width: "100%",
+    flex: 1,
   },
   input1: {
     width: "100%",
@@ -118,7 +114,6 @@ const stylesheet = StyleSheet.create({
   text1: {
     fontSize: 32,
     fontFamily: "Montserrat-Bold",
-    marginVertical: 10,
     color: "#436e99",
   },
   text2: {
@@ -129,7 +124,6 @@ const stylesheet = StyleSheet.create({
   text3: {
     fontSize: 16,
     fontFamily: "Montserrat-Bold",
-    marginVertical: 5,
     color: "#436e99",
   },
   pressable1: {
@@ -191,8 +185,6 @@ const stylesheet = StyleSheet.create({
     borderRadius: 100,
   },
   pressable3: {
-    position: "absolute",
-    backgroundColor: "#b1b3b5",
     borderRadius: 100,
     padding: 5,
     justifyContent: "center",
