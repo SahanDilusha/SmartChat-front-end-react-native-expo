@@ -2,6 +2,7 @@ import { Image, StyleSheet, View, Text, TextInput, Pressable, ScrollView } from 
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useEffect } from "react";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -35,18 +36,19 @@ export default function App() {
         <Text style={stylesheet.text2}>Hello! Welcome to Smart Chat</Text>
 
         <Text style={stylesheet.text3}>Mobile</Text>
-        <TextInput style={stylesheet.input1} inputMode="tel" />
+        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} />
 
         <Text style={stylesheet.text3}>First Name</Text>
-        <TextInput style={stylesheet.input1} />
+        <TextInput style={stylesheet.input1} cursorColor={"#000"} />
 
         <Text style={stylesheet.text3}>Last Name</Text>
-        <TextInput style={stylesheet.input1} />
+        <TextInput style={stylesheet.input1} cursorColor={"#000"} />
 
         <Text style={stylesheet.text3}>Password</Text>
-        <TextInput style={stylesheet.input1} secureTextEntry={true} />
+        <TextInput style={stylesheet.input1} cursorColor={"#000"} secureTextEntry={true} />
 
         <Pressable style={stylesheet.pressable1}>
+          <FontAwesome style={stylesheet.text4} name="sign-in" size={24} color="black" />
           <Text style={stylesheet.text4}>Sgin Up</Text>
         </Pressable>
 
@@ -104,6 +106,8 @@ const stylesheet = StyleSheet.create({
     borderRadius: 15,
     marginTop: 20,
     width: "100%",
+    flexDirection: "row",
+    columnGap: 10,
   },
   text4: {
     fontSize: 18,
