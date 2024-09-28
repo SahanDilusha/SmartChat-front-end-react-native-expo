@@ -113,7 +113,12 @@ export default function App() {
 
           if (response.ok) {
             let json = await response.json();
-            Alert.alert("Resopnse", json.message);
+            if (json.success) {
+              Alert.alert("Success", json.message);
+            } else {
+              Alert.alert("Error", json.message);
+            }
+
           }
 
         }}>
