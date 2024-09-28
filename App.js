@@ -36,8 +36,6 @@ export default function App() {
     return null;
   }
 
-
-
   return (
     <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1}>
       <ScrollView
@@ -103,9 +101,9 @@ export default function App() {
           form.append("first_name", getFirstName);
           form.append("last_name", getLastName);
           form.append("avatarImage", {
-            name:"avatar.png",
-            type:"image/png",
-            uri:getImage,
+            name: "avatar.png",
+            type: "image/png",
+            uri: getImage,
           });
 
           let response = await fetch("http://192.168.8.131:8080/SmartChat/SignUp", {
