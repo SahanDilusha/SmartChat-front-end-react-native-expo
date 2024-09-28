@@ -13,6 +13,7 @@ function Signin() {
 
   const [getMobile, setMobile] = useState("");
   const [getPassword, setPassword] = useState("");
+  const[getName,setName] = useState("😊");
 
   const [loaded, error] = useFonts({
     "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
@@ -50,7 +51,7 @@ function Signin() {
         <Text style={stylesheet.text2}>Hello! Welcome to Smart Chat</Text>
 
         <View style={stylesheet.view3}>
-         <Text style={stylesheet.text7}>SD</Text>
+          <Text style={stylesheet.text7}>{getName}</Text>
         </View>
 
         <Text style={stylesheet.text3}>Mobile</Text>
@@ -72,7 +73,7 @@ function Signin() {
               "mobile": getMobile,
               "password": getPassword,
             }),
-            headers:{"Content-Type":"application/json"}
+            headers: { "Content-Type": "application/json" }
           });
 
           if (response.ok) {
@@ -81,7 +82,7 @@ function Signin() {
             let user = json.user;
 
             if (json.success) {
-              Alert.alert("Success", json.message+" "+user.first_name+" "+user.last_name);
+              Alert.alert("Success", json.message + " " + user.first_name + " " + user.last_name);
             } else {
               Alert.alert("Error", json.message);
             }
@@ -198,11 +199,11 @@ const stylesheet = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  text7:{
+  text7: {
     fontSize: 30,
     fontFamily: "Montserrat-Bold",
-    backgroundColor:"#fff",
-    padding:20,
-    borderRadius:100,
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 100,
   },
 });
