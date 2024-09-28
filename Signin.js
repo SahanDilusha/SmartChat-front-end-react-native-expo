@@ -21,7 +21,6 @@ function Signin() {
   });
 
   const imagePath = require("./assets/images/main.png");
-  const imagePath2 = require("./assets/images/default.png");
 
   useEffect(() => {
     if (loaded || error) {
@@ -67,19 +66,22 @@ function Signin() {
 
         <Pressable style={stylesheet.pressable1} onPress={async () => {
 
-          let form = new FormData();
-          form.append("mobile", getMobile);
-          form.append("password", getPassword);
-
-          let response = await fetch("http://192.168.8.131:8080/SmartChat/SignUp", {
+          let response = await fetch("http://192.168.8.131:8080/SmartChat/SginIn", {
             method: "POST",
-            body: form,
+            body: JSON.stringify({
+              "mobile": getMobile,
+              "password": getPassword,
+            }),
+            headers:{"Content-Type":"application/json"}
           });
 
           if (response.ok) {
             let json = await response.json();
+
+            let user = json.user;
+
             if (json.success) {
-              Alert.alert("Success", json.message);
+              Alert.alert("Success", json.message+" "+user.first_name+" "+user.last_name);
             } else {
               Alert.alert("Error", json.message);
             }
@@ -88,7 +90,7 @@ function Signin() {
 
         }}>
           <FontAwesome style={stylesheet.text4} name="sign-in" size={24} color="black" />
-          <Text style={stylesheet.text4}>Sign Up</Text>
+          <Text style={stylesheet.text4}>Sign In</Text>
         </Pressable>
 
         <Pressable style={stylesheet.pressable2} onPress={() => { }}>
