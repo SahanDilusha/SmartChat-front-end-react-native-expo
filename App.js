@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput, Pressable, ScrollView } from "react-native";
+import { StyleSheet, View, Text, TextInput, Pressable, ScrollView, Alert } from "react-native";
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useEffect, useState } from "react";
@@ -10,33 +10,40 @@ import * as ImagePicker from 'expo-image-picker';
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [loaded,error] = useFonts({
+
+  const [getMobile, setMobile] = useState("");
+  const [getFirstName, setFirstName] = useState("");
+  const [getLastName, setLastName] = useState("");
+  const [getPassword, setPassword] = useState("");
+  const [getImage, setImage] = useState();
+
+  const [loaded, error] = useFonts({
     "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
     "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),
     "Montserrat-Regular": require("./assets/fonts/Montserrat-Regular.ttf"),
   });
 
-  const [getImage, setImage] = useState(null);
-
-  useEffect(() => {
-    if (loaded||error) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded,error]);
-
-  if (!loaded&&!error) {
-    return null;
-  }
-
   const imagePath = require("./assets/images/main.png");
   const imagePath2 = require("./assets/images/default.png");
 
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) {
+    return null;
+  }
+
+
+
   return (
     <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1}>
-      <ScrollView 
-        showsHorizontalScrollIndicator={false} 
-        showsVerticalScrollIndicator={false} 
-        style={stylesheet.main} 
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        style={stylesheet.main}
         contentContainerStyle={stylesheet.scrollContent}
       >
         <View style={stylesheet.view2}>
@@ -49,8 +56,8 @@ export default function App() {
         <Text style={stylesheet.text2}>Hello! Welcome to Smart Chat</Text>
 
         <View style={stylesheet.view3}>
-          <Pressable 
-            style={stylesheet.pressable3} 
+          <Pressable
+            style={stylesheet.pressable3}
             onPress={async () => {
               let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -61,6 +68,7 @@ export default function App() {
               if (!result.canceled) {
                 setImage(result.assets[0].uri);
               }
+
             }}
           >
             <Image source={getImage == null ? imagePath2 : { uri: getImage }} style={stylesheet.image2} />
@@ -68,18 +76,49 @@ export default function App() {
         </View>
 
         <Text style={stylesheet.text3}>Mobile</Text>
-        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10} />
+        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10} onChangeText={(text) => {
+          setMobile(text);
+        }} />
 
         <Text style={stylesheet.text3}>First Name</Text>
-        <TextInput style={stylesheet.input1} cursorColor={"#000"} />
+        <TextInput style={stylesheet.input1} cursorColor={"#000"} onChangeText={(text) => {
+          setFirstName(text);
+        }} />
 
         <Text style={stylesheet.text3}>Last Name</Text>
-        <TextInput style={stylesheet.input1} cursorColor={"#000"} />
+        <TextInput style={stylesheet.input1} cursorColor={"#000"} onChangeText={(text) => {
+          setLastName(text);
+        }} />
 
         <Text style={stylesheet.text3}>Password</Text>
-        <TextInput style={stylesheet.input1} cursorColor={"#000"} secureTextEntry={true} />
+        <TextInput style={stylesheet.input1} cursorColor={"#000"} secureTextEntry={true} onChangeText={(text) => {
+          setPassword(text);
+        }} />
 
-        <Pressable style={stylesheet.pressable1} onPress={() => { }}>
+        <Pressable style={stylesheet.pressable1} onPress={async () => {
+
+          let form = new FormData();
+          form.append("mobile", getMobile);
+          form.append("password", getPassword);
+          form.append("first_name", getFirstName);
+          form.append("last_name", getLastName);
+          form.append("avatarImage", {
+            name:"avatar.png",
+            type:"image/png",
+            uri:getImage,
+          });
+
+          let response = await fetch("http://192.168.8.131:8080/SmartChat/SignUp", {
+            method: "POST",
+            body: form,
+          });
+
+          if (response.ok) {
+            let json = await response.json();
+            Alert.alert("Resopnse", json.message);
+          }
+
+        }}>
           <FontAwesome style={stylesheet.text4} name="sign-in" size={24} color="black" />
           <Text style={stylesheet.text4}>Sign Up</Text>
         </Pressable>
