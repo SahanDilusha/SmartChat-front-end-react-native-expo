@@ -13,7 +13,7 @@ function Signin() {
 
   const [getMobile, setMobile] = useState("");
   const [getPassword, setPassword] = useState("");
-  const[getName,setName] = useState("😊");
+  const [getName, setName] = useState("😊");
 
   const [loaded, error] = useFonts({
     "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
@@ -55,7 +55,19 @@ function Signin() {
         </View>
 
         <Text style={stylesheet.text3}>Mobile</Text>
-        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10} onChangeText={(text) => {
+        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10} onEndEditing={async()=>{
+          if(getMobile.length === 10){
+            let response = await fetch("http://192.168.8.131:8080/SmartChat/GetName?mobile="+getMobile);
+
+            if (response.ok) {
+              let json = await response.json();
+
+              setName(json.leters);
+          
+            }
+
+          }
+        }} onChangeText={(text) => {
           setMobile(text);
         }} />
 
@@ -65,7 +77,7 @@ function Signin() {
           setPassword(text);
         }} />
 
-        <Pressable style={stylesheet.pressable1} onPress={async () => {
+        <Pressable style={stylesheet.pressable1} onEndEditing={()=>{}} onPress={async () => {
 
           let response = await fetch("http://192.168.8.131:8080/SmartChat/SginIn", {
             method: "POST",
@@ -192,12 +204,6 @@ const stylesheet = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
-  },
-  pressable3: {
-    borderRadius: 100,
-    padding: 5,
-    justifyContent: "center",
-    alignItems: "center",
   },
   text7: {
     fontSize: 30,
