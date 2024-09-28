@@ -21,6 +21,7 @@ function Signin() {
   });
 
   const imagePath = require("./assets/images/main.png");
+  const imagePath2 = require("./assets/images/default.png");
 
   useEffect(() => {
     if (loaded || error) {
@@ -45,17 +46,20 @@ function Signin() {
           <Text style={stylesheet.text6}>Smart Chat</Text>
         </View>
 
-        <Text style={stylesheet.text1}>Create Account</Text>
+        <Text style={stylesheet.text1}>Sign In</Text>
 
         <Text style={stylesheet.text2}>Hello! Welcome to Smart Chat</Text>
 
+        <View style={stylesheet.view3}>
+         <Text style={stylesheet.text7}>SD</Text>
+        </View>
 
         <Text style={stylesheet.text3}>Mobile</Text>
         <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10} onChangeText={(text) => {
           setMobile(text);
         }} />
 
-        
+
         <Text style={stylesheet.text3}>Password</Text>
         <TextInput style={stylesheet.input1} cursorColor={"#000"} secureTextEntry={true} onChangeText={(text) => {
           setPassword(text);
@@ -66,7 +70,7 @@ function Signin() {
           let form = new FormData();
           form.append("mobile", getMobile);
           form.append("password", getPassword);
-   
+
           let response = await fetch("http://192.168.8.131:8080/SmartChat/SignUp", {
             method: "POST",
             body: form,
@@ -191,5 +195,12 @@ const stylesheet = StyleSheet.create({
     padding: 5,
     justifyContent: "center",
     alignItems: "center",
+  },
+  text7:{
+    fontSize: 30,
+    fontFamily: "Montserrat-Bold",
+    backgroundColor:"#fff",
+    padding:20,
+    borderRadius:100,
   },
 });
