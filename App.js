@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput, Pressable, ScrollView} from "react-native";
+import { StyleSheet, View, Text, TextInput, Pressable, ScrollView } from "react-native";
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useEffect, useState } from "react";
@@ -10,32 +10,35 @@ import * as ImagePicker from 'expo-image-picker';
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-
-  const [loaded, error] = useFonts({
+  const [loaded,error] = useFonts({
     "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
     "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),
     "Montserrat-Regular": require("./assets/fonts/Montserrat-Regular.ttf"),
   });
 
+  const [getImage, setImage] = useState(null);
+
   useEffect(() => {
-    if (loaded) {
+    if (loaded||error) {
       SplashScreen.hideAsync();
     }
-  }, [loaded, error]);
+  }, [loaded,error]);
 
-  if (!loaded && !error) {
+  if (!loaded&&!error) {
     return null;
   }
 
   const imagePath = require("./assets/images/main.png");
   const imagePath2 = require("./assets/images/default.png");
 
-  const [getImage, setImage] = useState();
-
   return (
-
-    <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1} >
-      <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} style={stylesheet.main} contentContainerStyle={stylesheet.scrollContent}>
+    <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1}>
+      <ScrollView 
+        showsHorizontalScrollIndicator={false} 
+        showsVerticalScrollIndicator={false} 
+        style={stylesheet.main} 
+        contentContainerStyle={stylesheet.scrollContent}
+      >
         <View style={stylesheet.view2}>
           <Image source={imagePath} style={stylesheet.image1} contentFit="contain" />
           <Text style={stylesheet.text6}>Smart Chat</Text>
@@ -46,19 +49,21 @@ export default function App() {
         <Text style={stylesheet.text2}>Hello! Welcome to Smart Chat</Text>
 
         <View style={stylesheet.view3}>
+          <Pressable 
+            style={stylesheet.pressable3} 
+            onPress={async () => {
+              let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+              });
 
-          <Pressable style={stylesheet.pressable3} onPress={async () => {
-            let result = await ImagePicker.launchImageLibraryAsync({
-              mediaTypes: ImagePicker.MediaTypeOptions.Images,
-              allowsEditing: true,
-              aspect: [1, 1]
-            });
-
-            if (!result.canceled) {
-              setImage(result.assets[0].uri);
-            }
-          }}>
-            <Image source={getImage == null ? imagePath2 : getImage} style={stylesheet.image2} />
+              if (!result.canceled) {
+                setImage(result.assets[0].uri);
+              }
+            }}
+          >
+            <Image source={getImage == null ? imagePath2 : { uri: getImage }} style={stylesheet.image2} />
           </Pressable>
         </View>
 
@@ -76,15 +81,14 @@ export default function App() {
 
         <Pressable style={stylesheet.pressable1} onPress={() => { }}>
           <FontAwesome style={stylesheet.text4} name="sign-in" size={24} color="black" />
-          <Text style={stylesheet.text4}>Sgin Up</Text>
+          <Text style={stylesheet.text4}>Sign Up</Text>
         </Pressable>
 
         <Pressable style={stylesheet.pressable2} onPress={() => { }}>
-          <Text style={stylesheet.text5}>Alredy  have an account? Sgin In</Text>
+          <Text style={stylesheet.text5}>Already have an account? Sign In</Text>
         </Pressable>
       </ScrollView>
-    </LinearGradient >
-
+    </LinearGradient>
   );
 }
 
@@ -163,13 +167,6 @@ const stylesheet = StyleSheet.create({
   text6: {
     fontSize: 20,
     fontFamily: "Montserrat-Bold",
-  },
-  background1: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
   },
   image2: {
     width: 100,
