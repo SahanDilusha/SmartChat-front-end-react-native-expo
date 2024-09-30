@@ -1,5 +1,5 @@
 import { registerRootComponent } from "expo";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, Text } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
@@ -32,6 +32,11 @@ function Home() {
                 <View style={stylesheet.view3}>
 
                 </View>
+                <View style={stylesheet.view4}>
+                    <Text style={stylesheet.text1}>Name</Text>
+                    <Text style={stylesheet.text2}>Mobile</Text>
+                    <Text style={stylesheet.text3}>Since...</Text>
+                </View>
             </View>
             <ScrollView style={stylesheet.scrollView1}>
 
@@ -51,7 +56,10 @@ const stylesheet = StyleSheet.create({
     },
 
     view2: {
-
+        display:"flex",
+        flexDirection:"row",
+        alignItems:"center",
+        columnGap:20,
     },
 
     view3: {
@@ -63,5 +71,20 @@ const stylesheet = StyleSheet.create({
     scrollView1: {
 
     },
-
+    text1:{
+        fontSize:25,
+        fontFamily:"Montserrat-Bold",
+    },
+    text2:{
+        fontSize:20,
+        fontFamily:"Montserrat-Regular",
+    },
+    text3:{
+        fontSize:18,
+        fontFamily:"Montserrat-Light",
+        alignSelf:"flex-end",
+    },
+    view4:{
+        flex:1,
+    },
 });
