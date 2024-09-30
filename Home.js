@@ -47,7 +47,7 @@ function Home() {
                     </View>
                     <View style={stylesheet.view4}>
                         <Text style={stylesheet.text1}>Kamal Perera</Text>
-                        <Text style={stylesheet.text4}>Hello, Sahan</Text>
+                        <Text style={stylesheet.text4} numberOfLines={1}>Hello, Sahan ergferfg regvergv rffgver fverdfvev ergvev fvgre  erfvdf vfdfvdvedfvedf dfv</Text>
                         <View style={stylesheet.view7}>
                             <Text style={stylesheet.text5}>2024,sep 10 08:50 AM</Text>
                             <FontAwesome6 name={"check"} size={20} color="black" />
