@@ -39,7 +39,7 @@ function Home() {
                     <Text style={stylesheet.text3}>Since...</Text>
                 </View>
             </View>
-            <ScrollView style={stylesheet.scrollView1}>
+            <ScrollView style={stylesheet.scrollView1} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
 
                 <View style={stylesheet.view5}>
                     <View style={stylesheet.view6}>
@@ -50,7 +50,7 @@ function Home() {
                         <Text style={stylesheet.text4}>Hello, Sahan</Text>
                         <View style={stylesheet.view7}>
                             <Text style={stylesheet.text5}>2024,sep 10 08:50 AM</Text>
-                            <FontAwesome6 name="check" size={20} color="black" />
+                            <FontAwesome6 name={"check"} size={20} color="black" />
                         </View>
 
                     </View>
