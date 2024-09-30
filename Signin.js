@@ -6,6 +6,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import { registerRootComponent } from "expo";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -55,15 +56,15 @@ function Signin() {
         </View>
 
         <Text style={stylesheet.text3}>Mobile</Text>
-        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10} onEndEditing={async()=>{
-          if(getMobile.length === 10){
-            let response = await fetch("http://192.168.8.131:8080/SmartChat/GetName?mobile="+getMobile);
+        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10} onEndEditing={async () => {
+          if (getMobile.length === 10) {
+            let response = await fetch("http://192.168.8.131:8080/SmartChat/GetName?mobile=" + getMobile);
 
             if (response.ok) {
               let json = await response.json();
 
               setName(json.leters);
-          
+
             }
 
           }
@@ -77,7 +78,7 @@ function Signin() {
           setPassword(text);
         }} />
 
-        <Pressable style={stylesheet.pressable1} onEndEditing={()=>{}} onPress={async () => {
+        <Pressable style={stylesheet.pressable1} onEndEditing={() => { }} onPress={async () => {
 
           let response = await fetch("http://192.168.8.131:8080/SmartChat/SginIn", {
             method: "POST",
@@ -91,9 +92,13 @@ function Signin() {
           if (response.ok) {
             let json = await response.json();
 
-            let user = json.user;
-
             if (json.success) {
+              let user = json.user;
+              try {
+                await AsyncStorage.setItem("user", JSON.stringify(user));
+              } catch (error) {
+
+              }
               Alert.alert("Success", json.message + " " + user.first_name + " " + user.last_name);
             } else {
               Alert.alert("Error", json.message);
@@ -109,6 +114,7 @@ function Signin() {
         <Pressable style={stylesheet.pressable2} onPress={() => { }}>
           <Text style={stylesheet.text5}>Create a new account? Sign Up</Text>
         </Pressable>
+
       </ScrollView>
     </LinearGradient>
   );
