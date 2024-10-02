@@ -6,6 +6,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
+import { router } from "expo-router";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -126,7 +127,9 @@ export default function signup() {
           <Text style={stylesheet.text4}>Sign Up</Text>
         </Pressable>
 
-        <Pressable style={stylesheet.pressable2} onPress={() => { }}>
+        <Pressable style={stylesheet.pressable2} onPress={() => {
+          router.replace("/");
+        }}>
           <Text style={stylesheet.text5}>Already have an account? Sign In</Text>
         </Pressable>
       </ScrollView>

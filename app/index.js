@@ -6,6 +6,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from "expo-router";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -110,7 +111,9 @@ export default function index() {
           <Text style={stylesheet.text4}>Sign In</Text>
         </Pressable>
 
-        <Pressable style={stylesheet.pressable2} onPress={() => { }}>
+        <Pressable style={stylesheet.pressable2} onPress={() => { 
+          router.replace("/signup");
+        }}>
           <Text style={stylesheet.text5}>Create a new account? Sign Up</Text>
         </Pressable>
 
