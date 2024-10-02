@@ -11,6 +11,7 @@ import { router } from "expo-router";
 SplashScreen.preventAutoHideAsync();
 
 export default function index() {
+  console.log("01");
 
   const [getMobile, setMobile] = useState("");
   const [getPassword, setPassword] = useState("");
@@ -24,34 +25,44 @@ export default function index() {
 
   const imagePath = require("../assets/images/main.png");
 
-  useEffect(async()=>{
-    try {
-      let userJson = await AsyncStorage.getItem("user");
+  useEffect(
+    () => {
+      async function checkUser() {
 
-      if (userJson!=null) {
-        router.replace("/home");
+        console.log("02");
+        try {
+          let userJson = await AsyncStorage.getItem("user");
+
+          if (userJson != null) {
+            router.replace("/home");
+          }
+
+        } catch (error) {
+          console.log(error);
+        }
       }
-
-    } catch (error) {
-      console.log(error);
+      checkUser();
     }
-  },[]);
+    , []);
 
   useEffect(() => {
+    console.log("03");
     if (loaded || error) {
       SplashScreen.hideAsync();
     }
   }, [loaded, error]);
 
   if (!loaded && !error) {
+    console.log("04");
+
     return null;
   }
-
+  console.log("05");
   return (
     <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1}>
-      
-      <StatusBar hidden={true}/>
-      
+
+      <StatusBar hidden={true} />
+
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -128,7 +139,7 @@ export default function index() {
           <Text style={stylesheet.text4}>Sign In</Text>
         </Pressable>
 
-        <Pressable style={stylesheet.pressable2} onPress={() => { 
+        <Pressable style={stylesheet.pressable2} onPress={() => {
           router.replace("/signup");
         }}>
           <Text style={stylesheet.text5}>Create a new account? Sign Up</Text>
