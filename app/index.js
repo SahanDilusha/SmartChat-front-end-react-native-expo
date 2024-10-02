@@ -100,7 +100,7 @@ export default function index() {
               try {
                 await AsyncStorage.setItem("user", JSON.stringify(user));
               } catch (error) {
-
+                Alert.alert(error);
               }
               // Alert.alert("Success", json.message + " " + user.first_name + " " + user.last_name);
               router.replace("/home");
