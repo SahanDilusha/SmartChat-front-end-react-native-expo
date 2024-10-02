@@ -5,28 +5,23 @@ import { useEffect, useState } from "react";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
-import * as ImagePicker from 'expo-image-picker';
-
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 SplashScreen.preventAutoHideAsync();
 
-function App() {
+export default function index() {
 
   const [getMobile, setMobile] = useState("");
-  const [getFirstName, setFirstName] = useState("");
-  const [getLastName, setLastName] = useState("");
   const [getPassword, setPassword] = useState("");
-  const [getImage, setImage] = useState(null);
+  const [getName, setName] = useState("😊");
 
   const [loaded, error] = useFonts({
-    "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
-    "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),
-    "Montserrat-Regular": require("./assets/fonts/Montserrat-Regular.ttf"),
+    "Montserrat-Bold": require("../assets/fonts/Montserrat-Bold.ttf"),
+    "Montserrat-Light": require("../assets/fonts/Montserrat-Light.ttf"),
+    "Montserrat-Regular": require("../assets/fonts/Montserrat-Regular.ttf"),
   });
 
-  const imagePath = require("./assets/images/main.png");
-  const imagePath2 = require("./assets/images/default.png");
+  const imagePath = require("../assets/images/main.png");
 
   useEffect(() => {
     if (loaded || error) {
@@ -51,72 +46,59 @@ function App() {
           <Text style={stylesheet.text6}>Smart Chat</Text>
         </View>
 
-        <Text style={stylesheet.text1}>Create Account</Text>
+        <Text style={stylesheet.text1}>Sign In</Text>
 
         <Text style={stylesheet.text2}>Hello! Welcome to Smart Chat</Text>
 
         <View style={stylesheet.view3}>
-          <Pressable
-            style={stylesheet.pressable3}
-            onPress={async () => {
-              let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
-                aspect: [1, 1],
-              });
-
-              if (!result.canceled) {
-                setImage(result.assets[0].uri);
-              }
-
-            }}
-          >
-            <Image source={getImage == null ? imagePath2 : { uri: getImage }} style={stylesheet.image2} />
-          </Pressable>
+          <Text style={stylesheet.text7}>{getName}</Text>
         </View>
 
         <Text style={stylesheet.text3}>Mobile</Text>
-        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10} onChangeText={(text) => {
+        <TextInput style={stylesheet.input1} inputMode="tel" cursorColor={"#000"} maxLength={10} onEndEditing={async () => {
+          if (getMobile.length === 10) {
+            let response = await fetch("http://192.168.8.131:8080/SmartChat/GetName?mobile=" + getMobile);
+
+            if (response.ok) {
+              let json = await response.json();
+
+              setName(json.leters);
+
+            }
+
+          }
+        }} onChangeText={(text) => {
           setMobile(text);
         }} />
 
-        <Text style={stylesheet.text3}>First Name</Text>
-        <TextInput style={stylesheet.input1} cursorColor={"#000"} onChangeText={(text) => {
-          setFirstName(text);
-        }} />
-
-        <Text style={stylesheet.text3}>Last Name</Text>
-        <TextInput style={stylesheet.input1} cursorColor={"#000"} onChangeText={(text) => {
-          setLastName(text);
-        }} />
 
         <Text style={stylesheet.text3}>Password</Text>
         <TextInput style={stylesheet.input1} cursorColor={"#000"} secureTextEntry={true} onChangeText={(text) => {
           setPassword(text);
         }} />
 
-        <Pressable style={stylesheet.pressable1} onPress={async () => {
+        <Pressable style={stylesheet.pressable1} onEndEditing={() => { }} onPress={async () => {
 
-          let form = new FormData();
-          form.append("mobile", getMobile);
-          form.append("password", getPassword);
-          form.append("first_name", getFirstName);
-          form.append("last_name", getLastName);
-          form.append("avatarImage", {
-            name: "avatar.png",
-            type: "image/png",
-            uri: getImage,
-          });
-
-          let response = await fetch("http://192.168.8.131:8080/SmartChat/SignUp", {
+          let response = await fetch("http://192.168.8.131:8080/SmartChat/SginIn", {
             method: "POST",
-            body: form,
+            body: JSON.stringify({
+              "mobile": getMobile,
+              "password": getPassword,
+            }),
+            headers: { "Content-Type": "application/json" }
           });
 
           if (response.ok) {
             let json = await response.json();
+
             if (json.success) {
-              Alert.alert("Success", json.message);
+              let user = json.user;
+              try {
+                await AsyncStorage.setItem("user", JSON.stringify(user));
+              } catch (error) {
+
+              }
+              Alert.alert("Success", json.message + " " + user.first_name + " " + user.last_name);
             } else {
               Alert.alert("Error", json.message);
             }
@@ -125,18 +107,17 @@ function App() {
 
         }}>
           <FontAwesome style={stylesheet.text4} name="sign-in" size={24} color="black" />
-          <Text style={stylesheet.text4}>Sign Up</Text>
+          <Text style={stylesheet.text4}>Sign In</Text>
         </Pressable>
 
         <Pressable style={stylesheet.pressable2} onPress={() => { }}>
-          <Text style={stylesheet.text5}>Already have an account? Sign In</Text>
+          <Text style={stylesheet.text5}>Create a new account? Sign Up</Text>
         </Pressable>
+
       </ScrollView>
     </LinearGradient>
   );
 }
-
-
 
 const stylesheet = StyleSheet.create({
   main: {
@@ -227,10 +208,11 @@ const stylesheet = StyleSheet.create({
     alignItems: "center",
     borderRadius: 100,
   },
-  pressable3: {
+  text7: {
+    fontSize: 30,
+    fontFamily: "Montserrat-Bold",
+    backgroundColor: "#fff",
+    padding: 20,
     borderRadius: 100,
-    padding: 5,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
