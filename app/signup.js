@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from "expo-router";
+import { StatusBar } from 'expo-status-bar';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -39,6 +40,9 @@ export default function signup() {
 
   return (
     <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1}>
+
+      <StatusBar hidden={true}/>
+
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -115,7 +119,8 @@ export default function signup() {
           if (response.ok) {
             let json = await response.json();
             if (json.success) {
-              Alert.alert("Success", json.message);
+              // Alert.alert("Success", json.message);
+              router.replace("/");
             } else {
               Alert.alert("Error", json.message);
             }

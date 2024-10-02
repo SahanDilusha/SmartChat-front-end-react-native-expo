@@ -36,6 +36,9 @@ export default function index() {
 
   return (
     <LinearGradient colors={['#b8d2fc', '#ffffff']} style={stylesheet.view1}>
+      
+      <StatusBar hidden={true}/>
+      
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -99,7 +102,8 @@ export default function index() {
               } catch (error) {
 
               }
-              Alert.alert("Success", json.message + " " + user.first_name + " " + user.last_name);
+              // Alert.alert("Success", json.message + " " + user.first_name + " " + user.last_name);
+              router.replace("/home");
             } else {
               Alert.alert("Error", json.message);
             }
