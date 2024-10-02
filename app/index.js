@@ -24,6 +24,19 @@ export default function index() {
 
   const imagePath = require("../assets/images/main.png");
 
+  useEffect(async()=>{
+    try {
+      let userJson = await AsyncStorage.getItem("user");
+
+      if (userJson!=null) {
+        router.replace("/home");
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  },[]);
+
   useEffect(() => {
     if (loaded || error) {
       SplashScreen.hideAsync();
